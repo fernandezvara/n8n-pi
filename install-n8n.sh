@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 N8N_USER="n8n"
 N8N_HOME="/home/${N8N_USER}"
 N8N_PORT="5678"
-NODE_VERSION="18"
+NODE_VERSION="22"
 DOMAIN=""
 INSTALL_SSL="false"
 NGINX_CONFIG="true"
@@ -227,6 +227,15 @@ install_n8n() {
 configure_n8n() {
     log "Configuring n8n..."
     
+    if [[ ! -d "$N8N_HOME" ]]; then
+        mkdir -p "$N8N_HOME"
+        chown "$N8N_USER:$N8N_USER" "$N8N_HOME"
+    fi
+    
+    # Set correct permissions
+    chmod 755 "$N8N_HOME"
+    chown "$N8N_USER:$N8N_USER" "$N8N_HOME"
+    
     # Create configuration directory
     sudo -u "$N8N_USER" mkdir -p "${N8N_HOME}/.n8n"
     
@@ -297,6 +306,8 @@ Group=${N8N_USER}
 WorkingDirectory=${N8N_HOME}
 Environment=NODE_ENV=production
 EnvironmentFile=${N8N_HOME}/.n8n/.env
+ExecStartPre=/bin/chmod 755 ${N8N_HOME}
+ExecStartPre=/bin/chown ${N8N_USER}:${N8N_USER} ${N8N_HOME}
 ExecStart=/usr/bin/n8n start
 Restart=always
 RestartSec=10
@@ -304,12 +315,12 @@ StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=n8n
 
-# Configuración de seguridad
+# Security configuration
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ProtectHome=true
-ReadWritePaths=${N8N_HOME}/.n8n
+ProtectHome=false
+ReadWritePaths=${N8N_HOME}
 
 # Resource limits
 LimitNOFILE=65536
