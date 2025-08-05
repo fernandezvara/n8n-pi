@@ -282,7 +282,12 @@ N8N_PAYLOAD_SIZE_MAX=1024
 EXECUTIONS_DATA_PRUNE=true
 EXECUTIONS_DATA_MAX_AGE=168
 EOF
-    
+
+if [[ -z "$DOMAIN" ]]; then
+    echo -e "\n# UNSECURE: No domain configured\nN8N_SECURE_COOKIE=false" >> "${N8N_HOME}/.n8n/.env"
+fi
+
+
     # Set correct permissions
     chown -R "$N8N_USER:$N8N_USER" "${N8N_HOME}/.n8n"
     chmod 600 "${N8N_HOME}/.n8n/.env"
@@ -494,6 +499,11 @@ show_final_info() {
     echo "   • Stop: sudo systemctl stop n8n"
     echo
     
+    if [[ -z "$DOMAIN" ]]; then
+        echo "UNSECURE: No domain configured"
+        echo "N8N_SECURE_COOKIE was set to false, which is unsafe, use at your own risk"
+    fi
+
     if [[ "$INSTALL_SSL" != "true" && -n "$DOMAIN" && "$NGINX_CONFIG" == "true" ]]; then
         info "   To enable SSL, run:"
         echo "   sudo certbot --nginx -d ${DOMAIN}"

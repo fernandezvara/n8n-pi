@@ -105,12 +105,12 @@ chmod +x install-n8n.sh
 sudo ./install-n8n.sh -d my-domain.com -s
 ```
 
-## 🏗️ Arquitectura de la instalación
+## 🏗️ Installation architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Internet      │────│     Nginx       │────│      n8n        │
-│   (Port 80/443) │    │  (Proxy Reverso)│    │   (Port 5678)   │
+│   (Port 80/443) │    │  (Reverse Proxy)│    │   (Port 5678)   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          │              ┌─────────────────┐              │
@@ -131,8 +131,8 @@ After installation:
 ```
 /home/n8n/
 ├── .n8n/
-│   ├── .env                 # n8n configuration
-│   ├── database.sqlite      # Database
+│   ├── .env                # n8n configuration
+│   ├── database.sqlite     # Database
 │   ├── n8n.log             # Application logs
 │   └── nodes/              # Custom nodes
 │
@@ -366,14 +366,14 @@ n8n --version
 
 ### Software versions
 
-- **Node.js**: v16+ (default v18)
-- **npm**: v8+
+- **Node.js**: v18+ (default v22)
+- **npm**: v10+
 - **nginx**: v1.14+
 - **Python**: v3.6+
 
-## 🤝 Contribuir
+## 🤝 Contribute
 
-### Reportar problemas
+### Report issues
 
 If you find any issues:
 
