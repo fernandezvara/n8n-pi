@@ -52,7 +52,7 @@ curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n
 ### Basic installation
 
 ```bash
-curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh | sudo bash
 ```
 
 - Installs n8n with nginx and firewall
@@ -61,7 +61,7 @@ curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash
 ### With custom domain
 
 ```bash
-curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -d my-domain.com
+curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh | sudo bash -s -- -d my-domain.com
 ```
 
 - Configures nginx for the specified domain
@@ -70,7 +70,7 @@ curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -d my-domain.com
 ### With SSL/HTTPS automatic
 
 ```bash
-curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -d my-domain.com -s
+curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh | sudo bash -s -- -d my-domain.com -s
 ```
 
 - Installs SSL certificate with Let's Encrypt
@@ -79,7 +79,7 @@ curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -d my-domain.com
 ### User and port customization
 
 ```bash
-curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -u my-user -p 3000
+curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh | sudo bash -s -- -u my-user -p 3000
 ```
 
 - Creates user `my-user`
@@ -88,7 +88,7 @@ curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- -u my-user -p 30
 ### Only n8n (without nginx or firewall)
 
 ```bash
-curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- --no-nginx --no-firewall
+curl -fsSL https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh | sudo bash -s -- --no-nginx --no-firewall
 ```
 
 - Minimal n8n installation
@@ -98,7 +98,7 @@ curl -fsSL https://tu-repo.com/install-n8n.sh | sudo bash -s -- --no-nginx --no-
 
 ```bash
 # Download script
-wget https://tu-repo.com/install-n8n.sh
+wget https://raw.githubusercontent.com/fernandezvara/n8n-pi/main/install-n8n.sh
 chmod +x install-n8n.sh
 
 # Run with options
@@ -132,19 +132,19 @@ After installation:
 /home/n8n/
 ├── .n8n/
 │   ├── .env                 # n8n configuration
-│   ├── database.sqlite      # Base de datos
-│   ├── n8n.log             # Logs de aplicación
-│   └── nodes/              # Nodos personalizados
+│   ├── database.sqlite      # Database
+│   ├── n8n.log             # Application logs
+│   └── nodes/              # Custom nodes
 │
 /etc/systemd/system/
-├── n8n.service             # Servicio systemd
+├── n8n.service             # Systemd service
 │
 /etc/nginx/sites-available/
-├── n8n                     # Configuración nginx
+├── n8n                     # Nginx configuration
 │
 /var/log/nginx/
-├── n8n_access.log          # Logs de acceso
-└── n8n_error.log           # Logs de error
+├── n8n_access.log          # Access logs
+└── n8n_error.log           # Error logs
 ```
 
 ## 🔧 Post-installation management
@@ -223,8 +223,11 @@ sudo ufw status
 
 # detailed rules
 sudo ufw status verbose
+```
 
-# allow specific IP
+#### Secure access after execution (allow specific IP)
+
+```bash
 sudo ufw allow from 192.168.1.100
 ```
 
@@ -236,8 +239,8 @@ By default, n8n does not have authentication. To enable basic authentication:
 
 ```bash
 N8N_BASIC_AUTH_ACTIVE=true
-N8N_BASIC_AUTH_USER=tu-usuario
-N8N_BASIC_AUTH_PASSWORD=tu-contraseña-segura
+N8N_BASIC_AUTH_USER=your-user
+N8N_BASIC_AUTH_PASSWORD=your-password
 ```
 
 2. Restart n8n:
@@ -254,10 +257,10 @@ sudo systemctl restart n8n
 # Error logs
 sudo journalctl -u n8n --no-pager
 
-# Verificar configuración
+# Verify configuration
 sudo -u n8n n8n --version
 
-# Verificar permisos
+# Verify permissions
 ls -la /home/n8n/.n8n/
 ```
 
